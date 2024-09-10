@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using BookingAppNizaOcena.Applications.UtilityInterfaces;
 
-namespace BookingApp.Applications.Utilities
+namespace BookingAppNizaOcena.Applications.Utilities
 {
     class Serializer<T> where T : ISerializable, new()
     {
