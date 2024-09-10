@@ -1,11 +1,13 @@
 ﻿using BookingAppNizaOcena.Domain.Models;
 using BookingAppNizaOcena.Applications.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BookingAppNizaOcena.Repository
 {
     public class UserRepository
     {
-        private const string filePath = "../../../Resources/Data/users.csv";
+        private static readonly string filePath = @"D:\GitHub\BookingAppNizaOcena\BookingAppNizaOcena\Resources\Data\users.csv";
         private readonly Serializer<User> _serializer;
         private List<User> _users;
 

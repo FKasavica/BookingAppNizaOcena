@@ -1,27 +1,75 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BookingAppNizaOcena.Controllers;
+using BookingAppNizaOcena.Domain.Models;
+using BookingAppNizaOcena.Repository;
+using BookingAppNizaOcena.Applications.Services;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
-namespace BookingAppNizaOcena.Views
+namespace BookingAppNizaOcena.Views.User
 {
-    /// <summary>
-    /// Interaction logic for RegistrationView.xaml
-    /// </summary>
-    public partial class RegistrationView : Window
+    public partial class RegistrationView : Page
     {
+        private readonly UserController _userController;
+
         public RegistrationView()
         {
             InitializeComponent();
+            _userController = new UserController(new UserService(new UserRepository()));
+        }
+
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+            string jmbg = JmbgTextBox.Text;
+            string email = EmailTextBox.Text;
+            string password = PasswordBox.Password;
+            string firstName = NameTextBox.Text;
+            string lastName = SurnameTextBox.Text;
+            string mobilePhone = MobileTextBox.Text;
+            string userType = (UserTypeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+
+            if (string.IsNullOrWhiteSpace(jmbg) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+            {
+                MessageBox.Show("JMBG, Email i Password su obavezni!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            UserType parsedUserType = UserType.Guest;
+            if (userType == "Administrator") parsedUserType = UserType.Administrator;
+            else if (userType == "Vlasnik") parsedUserType = UserType.Owner;
+
+            var newUser = new BookingAppNizaOcena.Domain.Models.User
+            {
+                JMBG = jmbg,
+                Email = email,
+                Password = password,
+                FirstName = firstName,
+                LastName = lastName,
+                MobilePhone = mobilePhone,
+                UserType = parsedUserType
+            };
+
+            var result = _userController.Register(newUser);
+
+            if (result != null)
+            {
+                MessageBox.Show("Registracija uspešna!", "Uspeh", MessageBoxButton.OK, MessageBoxImage.Information);
+                ClearFields();
+            }
+            else
+            {
+                MessageBox.Show("Korisnik sa datim email-om već postoji.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ClearFields()
+        {
+            JmbgTextBox.Clear();
+            EmailTextBox.Clear();
+            PasswordBox.Clear();
+            NameTextBox.Clear();
+            SurnameTextBox.Clear();
+            MobileTextBox.Clear();
+            UserTypeComboBox.SelectedIndex = -1;
         }
     }
 }

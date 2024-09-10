@@ -1,24 +1,79 @@
-﻿using BookingAppNizaOcena.Applications.Services;
+﻿using BookingAppNizaOcena.Controllers;
+using BookingAppNizaOcena.Domain.Models;
 using BookingAppNizaOcena.Repository;
-using BookingAppNizaOcena.ViewModels;
+using BookingAppNizaOcena.Applications.Services;
 using System.Windows;
+using System.Windows.Controls;
 
-namespace BookingAppNizaOcena.Views
+namespace BookingAppNizaOcena.Views.User
 {
-    public partial class UserView : Window
+    public partial class UserView : Page
     {
+        private readonly UserController _userController;
+        private int loginAttempts = 0;
+
+
         public UserView()
         {
             InitializeComponent();
-            DataContext = new UserViewModel(new UserService(new UserRepository()));
+            _userController = new UserController(new UserService(new UserRepository()));
         }
 
-        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            if (DataContext != null)
+            string email = EmailTextBox.Text;
+            string password = PasswordBox.Password;
+
+            var user = _userController.Login(email, password);
+            if (user != null)
             {
-                ((UserViewModel)DataContext).Password = PasswordBox.Password;
+                MessageBox.Show($"Welcome, {user.FirstName} {user.LastName}!");
+
+                // Reset login attempts after successful login
+                loginAttempts = 0;
+
+                // Show the appropriate view based on the user's role
+                switch (user.UserType)
+                {
+                    case UserType.Administrator:
+                        var adminView = new AdministratorView();
+                        adminView.Show();
+                        break;
+                    case UserType.Guest:
+                        var guestView = new GuestView();
+                        guestView.Show();
+                        break;
+                    case UserType.Owner:
+                        var ownerView = new OwnerView();
+                        ownerView.Show();
+                        break;
+                }
+                this.Close(); // Close the current window
             }
+            else
+            {
+                loginAttempts++; // Increment failed login attempts
+
+                if (loginAttempts >= 3)
+                {
+                    MessageBox.Show("Three failed login attempts. The application will close.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Application.Current.Shutdown(); // Close the application
+                }
+                else
+                {
+                    MessageBox.Show("Incorrect email or password.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+
+
+
+
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+            RegistrationView registrationView = new RegistrationView();
+            this.NavigationService.Navigate(registrationView);
         }
     }
 }

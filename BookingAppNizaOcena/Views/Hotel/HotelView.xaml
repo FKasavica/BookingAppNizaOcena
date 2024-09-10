@@ -1,52 +1,43 @@
-﻿<Window x:Class="HotelManagement.Views.AllHotelsView"
+﻿<Window x:Class="BookingAppNizaOcena.Views.HotelView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="HotelView" Height="600" Width="800">
+
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+        <TextBlock Text="Pretraga Hotela" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10"/>
 
-        <!-- Search bar at the top -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" Background="LightGray">
-            <Label Content="Search:" VerticalAlignment="Center" Margin="10" />
-            <TextBox x:Name="SearchTextBox" Width="200" VerticalAlignment="Center" Margin="10" />
-            <Button x:Name="SearchButton" Content="Search" Margin="10" VerticalAlignment="Center" />
-        </StackPanel>
+        <!-- Polje za unos pretrage -->
+        <TextBlock Text="Pretraga po:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,50,0,0"/>
+        <ComboBox Name="SearchByComboBox" Width="200" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,50,0,0">
+            <ComboBoxItem Content="Šifra" Tag="code"/>
+            <ComboBoxItem Content="Ime" Tag="name"/>
+            <ComboBoxItem Content="Godina izgradnje" Tag="yearBuilt"/>
+            <ComboBoxItem Content="Broj zvezdica" Tag="starRating"/>
+        </ComboBox>
 
-        <!-- List of hotels -->
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="10">
-            <StackPanel>
-                <!-- Sample Hotel 1 -->
-                <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Padding="10" Margin="5" Background="LightBlue">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <Image Source="placeholder.png" Width="150" Height="100" Margin="0,0,20,0" />
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="Hotel Name 1" FontWeight="Bold" FontSize="16" TextAlignment="Center" />
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <Image Source="star_filled.png" Width="20" Height="20" />
-                                <Image Source="star_filled.png" Width="20" Height="20" />
-                                <Image Source="star_filled.png" Width="20" Height="20" />
-                                <Image Source="star_filled.png" Width="20" Height="20" />
-                                <Image Source="star_empty.png" Width="20" Height="20" />
-                            </StackPanel>
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
-                <!-- More hotels can be added here following the same structure -->
-            </StackPanel>
-        </ScrollViewer>
+        <!-- Polje za pretragu po apartmanima -->
+        <TextBlock Text="Broj soba:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,100,0,0"/>
+        <TextBox Name="RoomCountTextBox" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,100,0,0"/>
 
-        <!-- Sort options moved to the bottom -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" Background="LightGray">
-            <Label Content="Sort by:" VerticalAlignment="Center" Margin="10" />
-            <ComboBox x:Name="SortOptionComboBox" Width="200" VerticalAlignment="Center" Margin="10">
-                <ComboBoxItem Content="Hotel Name" />
-                <ComboBoxItem Content="Number of Stars" />
-            </ComboBox>
-            <Button x:Name="SortButton" Content="Sort" Margin="10" VerticalAlignment="Center" />
-        </StackPanel>
+        <TextBlock Text="Max broj gostiju:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,150,0,0"/>
+        <TextBox Name="MaxGuestsTextBox" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,150,0,0"/>
+
+        <!-- Dugmad za logičke operatore -->
+        <TextBlock Text="Operator:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,200,0,0"/>
+        <Button Content="&amp;" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,200,0,0" Click="AndOperatorButton_Click"/>
+        <Button Content="|" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,200,0,0" Click="OrOperatorButton_Click"/>
+
+        <!-- Dugme za pretragu -->
+        <Button Content="Pretraži" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,250,0,0" Click="SearchButton_Click"/>
+
+        <!-- Sortiranje -->
+        <TextBlock Text="Sortiraj po:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,300,0,0"/>
+        <ComboBox Name="SortByComboBox" Width="200" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,300,0,0">
+            <ComboBoxItem Content="Ime" Tag="name"/>
+            <ComboBoxItem Content="Broj zvezdica" Tag="starRating"/>
+        </ComboBox>
+
+        <!-- Lista hotela -->
+        <ListBox Name="HotelListBox" Width="600" Height="200" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,50"/>
     </Grid>
 </Window>

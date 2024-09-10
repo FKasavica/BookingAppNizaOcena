@@ -27,6 +27,11 @@ namespace BookingAppNizaOcena.Domain.Models
 
         public void FromCSV(string[] values)
         {
+            if (values.Length < 7)
+            {
+                throw new IndexOutOfRangeException("Niz values nema dovoljno elemenata za očekivani format.");
+            }
+
             JMBG = values[0];
             Email = values[1];
             Password = values[2];
