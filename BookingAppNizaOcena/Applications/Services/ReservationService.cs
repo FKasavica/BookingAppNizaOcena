@@ -1,7 +1,8 @@
-﻿using BookingAppNizaOcena.Repository;
-using BookingAppNizaOcena.Domain.Models;
+﻿using BookingAppNizaOcena.Domain.Models;
+using BookingAppNizaOcena.Repository;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BookingAppNizaOcena.Applications.Services
 {
@@ -14,19 +15,40 @@ namespace BookingAppNizaOcena.Applications.Services
             _reservationRepository = reservationRepository;
         }
 
-        public List<Reservation> GetAllReservations()
+        public bool IsApartmentAvailable(string apartmentName, DateTime reservationDate)
         {
-            return _reservationRepository.GetAllReservations();
+            var existingReservations = _reservationRepository.GetReservationsByApartment(apartmentName);
+            return !existingReservations.Any(r => r.ReservationDate == reservationDate.ToString("yyyy-MM-dd"));
+        }
+
+        public List<Reservation> GetReservationsByGuest(string guestEmail)
+        {
+            return _reservationRepository.GetReservationsByGuest(guestEmail);
+        }
+
+        public List<Reservation> GetPendingReservationsByGuest(string guestEmail)
+        {
+            return _reservationRepository.GetReservationsByStatus(guestEmail, ReservationStatus.Pending);
+        }
+
+        public List<Reservation> GetConfirmedReservationsByGuest(string guestEmail)
+        {
+            return _reservationRepository.GetReservationsByStatus(guestEmail, ReservationStatus.Confirmed);
+        }
+
+        public List<Reservation> GetRejectedReservationsByGuest(string guestEmail)
+        {
+            return _reservationRepository.GetReservationsByStatus(guestEmail, ReservationStatus.Rejected);
         }
 
         public void CreateReservation(Reservation reservation)
         {
-            _reservationRepository.AddReservation(reservation);
+            _reservationRepository.Add(reservation);
         }
 
-        public bool IsApartmentAvailable(Apartment apartment, DateTime date)
+        public void CancelReservation(Reservation reservation)
         {
-            return _reservationRepository.IsApartmentAvailable(apartment, date);
+            _reservationRepository.CancelReservation(reservation);
         }
     }
 }

@@ -10,22 +10,49 @@ namespace BookingAppNizaOcena.Repository
 
         public ReservationRepository()
         {
-            _reservations = new List<Reservation>(); // Inicijalizacija rezervacija, može se proširiti čitanjem iz fajla
+            _reservations = LoadReservations();
         }
 
-        public List<Reservation> GetAllReservations()
+        public List<Reservation> GetReservationsByGuest(string guestEmail)
         {
-            return _reservations;
+            return _reservations.Where(r => r.GuestEmail == guestEmail).ToList();
         }
 
-        public void AddReservation(Reservation reservation)
+        public List<Reservation> GetReservationsByStatus(string guestEmail, ReservationStatus status)
+        {
+            return _reservations.Where(r => r.GuestEmail == guestEmail && r.Status == status).ToList();
+        }
+
+        public List<Reservation> GetReservationsByApartment(string apartmentName)
+        {
+            return _reservations.Where(r => r.ApartmentName == apartmentName).ToList();
+        }
+
+        public void Add(Reservation reservation)
         {
             _reservations.Add(reservation);
+            SaveReservations();
         }
 
-        public bool IsApartmentAvailable(Apartment apartment, DateTime date)
+        public void CancelReservation(Reservation reservation)
         {
-            return !_reservations.Any(r => r.Apartment == apartment && r.ReservationDate == date && r.Status == ReservationStatus.Confirmed);
+            var existingReservation = _reservations.FirstOrDefault(r => r.Id == reservation.Id);
+            if (existingReservation != null)
+            {
+                existingReservation.Status = ReservationStatus.Canceled;
+                SaveReservations();
+            }
+        }
+
+        private List<Reservation> LoadReservations()
+        {
+            // Učitavanje rezervacija iz CSV-a
+            return new List<Reservation>();
+        }
+
+        private void SaveReservations()
+        {
+            // Čuvanje rezervacija u CSV-u
         }
     }
 }

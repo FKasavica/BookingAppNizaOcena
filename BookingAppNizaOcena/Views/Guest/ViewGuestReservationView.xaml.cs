@@ -6,19 +6,19 @@ using System.Windows;
 
 namespace BookingAppNizaOcena.Views.Guest
 {
-    public partial class ViewReservationsView : Window
+    public partial class ViewGuestReservationView : Window
     {
         private readonly ReservationService _reservationService;
-        private BookingAppNizaOcena.Domain.Models.User _guestUser;
+        private string _guestEmail;
 
-        public ViewReservationsView(BookingAppNizaOcena.Domain.Models.User guestUser)
+        public ViewGuestReservationView(string guestEmail)
         {
             InitializeComponent();
-            _guestUser = guestUser;
+            _guestEmail = guestEmail;
             _reservationService = new ReservationService(new ReservationRepository());
 
             // Prikaz svih rezervacija gosta
-            ReservationsDataGrid.ItemsSource = _reservationService.GetReservationsByGuest(_guestUser);
+            ReservationsDataGrid.ItemsSource = _reservationService.GetReservationsByGuest(_guestEmail);
         }
 
         private void FilterReservations_Click(object sender, RoutedEventArgs e)
@@ -27,10 +27,10 @@ namespace BookingAppNizaOcena.Views.Guest
 
             List<Reservation> filteredReservations = selectedFilter switch
             {
-                "Pending" => _reservationService.GetPendingReservationsByGuest(_guestUser),
-                "Confirmed" => _reservationService.GetConfirmedReservationsByGuest(_guestUser),
-                "Rejected" => _reservationService.GetRejectedReservationsByGuest(_guestUser),
-                _ => _reservationService.GetReservationsByGuest(_guestUser)
+                "Pending" => _reservationService.GetPendingReservationsByGuest(_guestEmail),
+                "Confirmed" => _reservationService.GetConfirmedReservationsByGuest(_guestEmail),
+                "Rejected" => _reservationService.GetRejectedReservationsByGuest(_guestEmail),
+                _ => _reservationService.GetReservationsByGuest(_guestEmail)
             };
 
             ReservationsDataGrid.ItemsSource = filteredReservations;
@@ -52,7 +52,7 @@ namespace BookingAppNizaOcena.Views.Guest
                 MessageBox.Show("Reservation canceled successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 // Refresh the reservation list after cancellation
-                ReservationsDataGrid.ItemsSource = _reservationService.GetReservationsByGuest(_guestUser);
+                ReservationsDataGrid.ItemsSource = _reservationService.GetReservationsByGuest(_guestEmail);
             }
             else
             {

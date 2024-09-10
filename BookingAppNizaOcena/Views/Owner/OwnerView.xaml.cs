@@ -14,7 +14,7 @@ namespace BookingAppNizaOcena.Views.Owner
         private void ViewReservations_Click(object sender, RoutedEventArgs e)
         {
             // Provera da li postoji ViewReservationsView
-            var viewReservations = new ViewReservationsView();
+            var viewReservations = new ViewOwnerReservationView();
             viewReservations.Show();
             this.Close();
         }

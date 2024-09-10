@@ -1,20 +1,54 @@
-﻿using BookingAppNizaOcena.Domain.Models;
+﻿using BookingAppNizaOcena.Applications.UtilityInterfaces;
+using System;
 
 namespace BookingAppNizaOcena.Domain.Models
 {
-    public class Reservation
+    public class Reservation : ISerializable
     {
-        public Apartment Apartment { get; set; }
-        public User Guest { get; set; }
-        public DateTime ReservationDate { get; set; }
+        public string Id { get; set; }
+        public string GuestEmail { get; set; }
+        public string ApartmentName { get; set; }
+        public string ReservationDate { get; set; }
         public ReservationStatus Status { get; set; }
-        public string RejectionReason { get; set; } // Razlog odbijanja, ukoliko postoji
+
+        public Reservation() { }
+
+        public Reservation(string id, string guestEmail, string apartmentName, string reservationDate, ReservationStatus status)
+        {
+            Id = id;
+            GuestEmail = guestEmail;
+            ApartmentName = apartmentName;
+            ReservationDate = reservationDate;
+            Status = status;
+        }
+
+        public void FromCSV(string[] values)
+        {
+            Id = values[0];
+            GuestEmail = values[1];
+            ApartmentName = values[2];
+            ReservationDate = values[3];
+            Status = (ReservationStatus)Enum.Parse(typeof(ReservationStatus), values[4]);
+        }
+
+        public string[] ToCSV()
+        {
+            return new string[]
+            {
+                Id,
+                GuestEmail,
+                ApartmentName,
+                ReservationDate,
+                Status.ToString()
+            };
+        }
     }
 
     public enum ReservationStatus
     {
         Pending,
         Confirmed,
-        Rejected
+        Rejected,
+        Canceled
     }
 }

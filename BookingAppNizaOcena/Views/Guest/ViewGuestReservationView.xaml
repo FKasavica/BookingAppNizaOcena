@@ -1,4 +1,4 @@
-﻿<Window x:Class="BookingAppNizaOcena.Views.Guest.ViewReservationsView"
+﻿<Window x:Class="BookingAppNizaOcena.Views.Guest.ViewGuestReservationView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="View Reservations" Height="450" Width="600">

@@ -20,7 +20,7 @@ namespace BookingAppNizaOcena.Views
 
         private void ViewReservationsButton_Click(object sender, RoutedEventArgs e)
         {
-            var viewReservationsView = new ViewReservationView();
+            var viewReservationsView = new ViewGuestReservationView();
             viewReservationsView.Show();
             this.Close(); // Close the current window
         }
