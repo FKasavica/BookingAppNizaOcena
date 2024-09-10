@@ -25,13 +25,6 @@ namespace BookingAppNizaOcena.Views
             this.Close(); // Close the current window
         }
 
-        private void CancelReservationButton_Click(object sender, RoutedEventArgs e)
-        {
-            var cancelReservationView = new CancelReservationView();
-            cancelReservationView.Show();
-            this.Close(); // Close the current window
-        }
-
         private void ViewHotelsButton_Click(object sender, RoutedEventArgs e)
         {
             var hotelsView = new HotelView();
