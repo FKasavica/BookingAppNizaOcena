@@ -3,15 +3,15 @@ using BookingAppNizaOcena.Domain.Models;
 using BookingAppNizaOcena.Repository;
 using BookingAppNizaOcena.Applications.Services;
 using System.Windows;
+using BookingAppNizaOcena.Views.User;
 using System.Windows.Controls;
 
-namespace BookingAppNizaOcena.Views.User
+namespace BookingAppNizaOcena.Views
 {
-    public partial class UserView : Page
+    public partial class UserView : Window
     {
         private readonly UserController _userController;
         private int loginAttempts = 0;
-
 
         public UserView()
         {
@@ -48,6 +48,7 @@ namespace BookingAppNizaOcena.Views.User
                         ownerView.Show();
                         break;
                 }
+
                 this.Close(); // Close the current window
             }
             else
@@ -66,14 +67,11 @@ namespace BookingAppNizaOcena.Views.User
             }
         }
 
-
-
-
-
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-            RegistrationView registrationView = new RegistrationView();
-            this.NavigationService.Navigate(registrationView);
+            var registrationView = new RegistrationView();
+            registrationView.Show(); // Show the registration view
+            this.Close(); // Close the current window
         }
     }
 }

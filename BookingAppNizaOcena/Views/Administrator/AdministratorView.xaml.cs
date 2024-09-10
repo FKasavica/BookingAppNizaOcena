@@ -1,4 +1,5 @@
 ﻿using BookingAppNizaOcena.Views.User;
+using BookingAppNizaOcena.Views.Administrator;
 using System.Windows;
 
 namespace BookingAppNizaOcena.Views
@@ -24,13 +25,6 @@ namespace BookingAppNizaOcena.Views
             this.Close(); // Close current window
         }
 
-        private void BlockUserButton_Click(object sender, RoutedEventArgs e)
-        {
-            var blockUserView = new BlockUserView();
-            blockUserView.Show();
-            this.Close(); // Close current window
-        }
-
         private void AddHotelButton_Click(object sender, RoutedEventArgs e)
         {
             var addHotelView = new AddHotelView();
@@ -42,13 +36,6 @@ namespace BookingAppNizaOcena.Views
         {
             var viewHotelsView = new HotelView();
             viewHotelsView.Show();
-            this.Close(); // Close current window
-        }
-
-        private void SearchHotelsButton_Click(object sender, RoutedEventArgs e)
-        {
-            var searchHotelsView = new SearchHotelsView();
-            searchHotelsView.Show();
             this.Close(); // Close current window
         }
 

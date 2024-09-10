@@ -1,0 +1,8 @@
+﻿<Window x:Class="BookingAppNizaOcena.Views.OwnerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Owner Dashboard" Height="300" Width="400">
+    <Grid>
+        <TextBlock Text="Welcome Owner!" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    </Grid>
+</Window>

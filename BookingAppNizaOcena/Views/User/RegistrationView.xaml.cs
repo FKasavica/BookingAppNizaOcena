@@ -5,9 +5,9 @@ using BookingAppNizaOcena.Applications.Services;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BookingAppNizaOcena.Views.User
+namespace BookingAppNizaOcena.Views
 {
-    public partial class RegistrationView : Page
+    public partial class RegistrationView : Window
     {
         private readonly UserController _userController;
 
@@ -29,7 +29,7 @@ namespace BookingAppNizaOcena.Views.User
 
             if (string.IsNullOrWhiteSpace(jmbg) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("JMBG, Email i Password su obavezni!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("JMBG, Email, and Password are mandatory!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -52,12 +52,17 @@ namespace BookingAppNizaOcena.Views.User
 
             if (result != null)
             {
-                MessageBox.Show("Registracija uspešna!", "Uspeh", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Registration successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 ClearFields();
+
+                // Navigate back to the login window
+                var loginWindow = new UserView();
+                loginWindow.Show();
+                this.Close(); // Close the registration window
             }
             else
             {
-                MessageBox.Show("Korisnik sa datim email-om već postoji.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("A user with the given email or JMBG already exists.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
