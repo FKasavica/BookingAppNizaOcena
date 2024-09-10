@@ -4,9 +4,11 @@ using BookingAppNizaOcena.Repository;
 using BookingAppNizaOcena.Applications.Services;
 using System.Windows;
 using BookingAppNizaOcena.Views.User;
+using BookingAppNizaOcena.Views.Owner;
 using System.Windows.Controls;
 
-namespace BookingAppNizaOcena.Views
+
+namespace BookingAppNizaOcena.Views.User
 {
     public partial class UserView : Window
     {

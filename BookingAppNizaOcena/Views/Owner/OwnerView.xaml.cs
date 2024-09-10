@@ -1,27 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BookingAppNizaOcena.Views.Guest;
+using BookingAppNizaOcena.Views.User;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace BookingAppNizaOcena.Views.Owner
 {
-    /// <summary>
-    /// Interaction logic for OwnerView.xaml
-    /// </summary>
     public partial class OwnerView : Window
     {
         public OwnerView()
         {
             InitializeComponent();
+        }
+
+        private void ViewReservations_Click(object sender, RoutedEventArgs e)
+        {
+            // Provera da li postoji ViewReservationsView
+            var viewReservations = new ViewReservationsView();
+            viewReservations.Show();
+            this.Close();
+        }
+
+        private void ManageMyHotels_Click(object sender, RoutedEventArgs e)
+        {
+            var manageMyHotelsView = new ManageHotelsView();
+            manageMyHotelsView.Show();
+            this.Close();
+        }
+
+        private void ViewAllHotels_Click(object sender, RoutedEventArgs e)
+        {
+            var viewHotels = new HotelView();
+            viewHotels.Show();
+            this.Close();
+        }
+
+        private void AddApartment_Click(object sender, RoutedEventArgs e)
+        {
+            var addApartment = new AddApartmentView();
+            addApartment.Show();
+            this.Close();
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            var loginView = new UserView();
+            loginView.Show();
+            this.Close();
         }
     }
 }
