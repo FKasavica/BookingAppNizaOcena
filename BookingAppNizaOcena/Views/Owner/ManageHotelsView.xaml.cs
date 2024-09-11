@@ -1,27 +1,62 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BookingAppNizaOcena.Applications.Services;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using BookingAppNizaOcena.Domain.Models;
+using BookingAppNizaOcena.Repository;
 
 namespace BookingAppNizaOcena.Views.Owner
 {
-    /// <summary>
-    /// Interaction logic for ManageHotelsView.xaml
-    /// </summary>
     public partial class ManageHotelsView : Window
     {
-        public ManageHotelsView()
+        private readonly HotelService _hotelService;
+        private readonly string _ownerJMBG;
+
+        public ManageHotelsView(string ownerJMBG)
         {
             InitializeComponent();
+            _hotelService = new HotelService(new HotelRepository());
+            _ownerJMBG = ownerJMBG;
+
+            LoadHotels();
+        }
+
+        private void LoadHotels()
+        {
+            var hotels = _hotelService.GetHotelsByOwner(_ownerJMBG);
+            HotelsListBox.ItemsSource = hotels;
+        }
+
+        private void ConfirmHotel_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedHotel = HotelsListBox.SelectedItem as Hotel;
+            if (selectedHotel != null && !selectedHotel.IsConfirmed)
+            {
+                selectedHotel.IsConfirmed = true;
+                _hotelService.Save(selectedHotel);
+                LoadHotels(); // Osvetli hotele nakon potvrde
+            }
+        }
+
+        private void RejectHotel_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedHotel = HotelsListBox.SelectedItem as Hotel;
+            if (selectedHotel != null && !selectedHotel.IsConfirmed)
+            {
+                var rejectionReason = HotelRejectionReasonTextBox.Text;
+                selectedHotel.RejectionReason = rejectionReason; // Dodavanje razloga za odbijanje
+                _hotelService.Save(selectedHotel);
+                LoadHotels(); // Osvetli hotele nakon odbijanja
+            }
+        }
+
+        private void AddApartment_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedHotel = HotelsListBox.SelectedItem as Hotel;
+            if (selectedHotel != null)
+            {
+                var addApartmentWindow = new AddApartmentView(selectedHotel); // Otvara novi prozor za dodavanje apartmana
+                addApartmentWindow.ShowDialog();
+                LoadHotels(); // Osvetli hotele nakon dodavanja apartmana
+            }
         }
     }
 }

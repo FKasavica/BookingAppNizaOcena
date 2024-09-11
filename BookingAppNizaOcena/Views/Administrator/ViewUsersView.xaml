@@ -1,12 +1,36 @@
 ﻿<Window x:Class="BookingAppNizaOcena.Views.Administrator.ViewUsersView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BookingAppNizaOcena.Views.Administrator"
-        mc:Ignorable="d"
-        Title="ViewUsersView" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="View Users" Height="450" Width="600">
+    <StackPanel Margin="20">
+        <TextBlock Text="View All Users" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="10"/>
+
+        <!-- Filter options -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="Filter by type:" Margin="5"/>
+            <ComboBox Name="UserTypeComboBox" Width="150" Margin="5">
+                <ComboBoxItem Content="All"/>
+                <ComboBoxItem Content="Guest"/>
+                <ComboBoxItem Content="Owner"/>
+            </ComboBox>
+            <Button Content="Filter" Width="100" Margin="5" Click="FilterUsersButton_Click"/>
+        </StackPanel>
+
+        <!-- Table for displaying users -->
+        <DataGrid Name="UsersDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Width="500" Height="250">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" Width="*"/>
+                <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" Width="*"/>
+                <DataGridTextColumn Header="JMBG" Binding="{Binding JMBG}" Width="*"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+                <DataGridTextColumn Header="User Type" Binding="{Binding UserType}" Width="*"/>
+                <DataGridCheckBoxColumn Header="Blocked" Binding="{Binding IsBlocked}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Block/Unblock User -->
+        <Button Content="Block/Unblock User" Width="200" Height="40" Margin="10" Click="BlockUnblockButton_Click"/>
+
+        <Button Content="Back" Width="200" Height="40" Margin="10" Click="BackButton_Click"/>
+    </StackPanel>
 </Window>

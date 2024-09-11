@@ -19,15 +19,24 @@ namespace BookingAppNizaOcena.Repository
 
         public Apartment Save(Apartment apartment)
         {
+            var existingApartment = _apartments.FirstOrDefault(a => a.Name == apartment.Name);
+
+            if (existingApartment != null)
+            {
+                throw new Exception("An apartment with the same name already exists.");
+            }
+
             _apartments.Add(apartment);
             _serializer.ToCSV(filePath, _apartments);
             return apartment;
         }
 
-        public Apartment GetByName(string name)
+
+        public Apartment? GetByName(string name) // Označi kao nullable tip povratne vrednosti
         {
-            return _apartments.FirstOrDefault(a => a.Name == name);
+            return _apartments.FirstOrDefault(a => a.Name == name); // Vraća null ako nema apartmana sa tim imenom
         }
+
 
         public List<Apartment> GetAll()
         {

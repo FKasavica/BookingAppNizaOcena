@@ -11,10 +11,11 @@ namespace BookingAppNizaOcena.Domain.Models
         public string LastName { get; set; }
         public string MobilePhone { get; set; }
         public UserType UserType { get; set; }
+        public bool IsBlocked { get; set; } // Dodato svojstvo IsBlocked
 
         public User() { }
 
-        public User(string jmbg, string email, string password, string firstName, string lastName, string mobilePhone, UserType userType)
+        public User(string jmbg, string email, string password, string firstName, string lastName, string mobilePhone, UserType userType, bool isBlocked = false)
         {
             JMBG = jmbg;
             Email = email;
@@ -23,11 +24,12 @@ namespace BookingAppNizaOcena.Domain.Models
             LastName = lastName;
             MobilePhone = mobilePhone;
             UserType = userType;
+            IsBlocked = isBlocked; // Inicijalizovano sa default vrednošću false
         }
 
         public void FromCSV(string[] values)
         {
-            if (values.Length < 7)
+            if (values.Length < 8)
             {
                 throw new IndexOutOfRangeException("Niz values nema dovoljno elemenata za očekivani format.");
             }
@@ -39,6 +41,7 @@ namespace BookingAppNizaOcena.Domain.Models
             LastName = values[4];
             MobilePhone = values[5];
             UserType = (UserType)Enum.Parse(typeof(UserType), values[6]);
+            IsBlocked = bool.Parse(values[7]); // Dodata obrada za IsBlocked
         }
 
         public string[] ToCSV()
@@ -51,7 +54,8 @@ namespace BookingAppNizaOcena.Domain.Models
                 FirstName,
                 LastName,
                 MobilePhone,
-                UserType.ToString()
+                UserType.ToString(),
+                IsBlocked.ToString() // Dodato u CSV serijalizaciju
             };
         }
     }

@@ -6,8 +6,6 @@ using System.Windows;
 using BookingAppNizaOcena.Views.User;
 using System.Windows.Controls;
 
-
-
 namespace BookingAppNizaOcena.Views
 {
     public partial class RegistrationView : Window

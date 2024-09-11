@@ -1,12 +1,20 @@
 ﻿<Window x:Class="BookingAppNizaOcena.Views.Owner.ManageHotelsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BookingAppNizaOcena.Views.Owner"
-        mc:Ignorable="d"
-        Title="ManageHotelsView" Height="450" Width="800">
+        Title="Manage Hotels" Height="400" Width="800">
     <Grid>
-        
+        <!-- ListBox za prikaz hotela -->
+        <ListBox Name="HotelsListBox" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="400" Margin="10,10,0,0" />
+
+        <!-- Dugmad za potvrdu i odbijanje hotela -->
+        <Button Content="Confirm Hotel" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="420,10,0,0" Click="ConfirmHotel_Click" />
+        <Button Content="Reject Hotel" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="580,10,0,0" Click="RejectHotel_Click" />
+
+        <!-- TextBox za unos razloga za odbijanje hotela -->
+        <TextBox Name="HotelRejectionReasonTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="420,50,0,0" />
+        <Label Content="Rejection Reason:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="420,30,0,0" />
+
+        <!-- Dugme za otvaranje prozora za dodavanje apartmana -->
+        <Button Content="Add Apartment" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="420,100,0,0" Click="AddApartment_Click" />
     </Grid>
 </Window>

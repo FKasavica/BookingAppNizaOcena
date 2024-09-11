@@ -41,9 +41,14 @@ namespace BookingAppNizaOcena.Applications.Services
             return _reservationRepository.GetReservationsByStatus(guestEmail, ReservationStatus.Rejected);
         }
 
+        public List<Reservation> GetReservationsByApartment(string apartmentName)
+        {
+            return _reservationRepository.GetReservationsByApartment(apartmentName);
+        }
+
         public void CreateReservation(Reservation reservation)
         {
-            _reservationRepository.Add(reservation);
+            _reservationRepository.Save(reservation);
         }
 
         public void CancelReservation(Reservation reservation)

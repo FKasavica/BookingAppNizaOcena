@@ -10,9 +10,9 @@ namespace BookingAppNizaOcena.Utilities
 
         public event EventHandler CanExecuteChanged;
 
-        public RelayCommand(Action execute, Func<bool> canExecute = null)
+        public RelayCommand(Action execute, Func<bool>? canExecute = null) // Dodaj ? za canExecute
         {
-            _execute = execute;
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute)); // Osiguraj da _execute nije null
             _canExecute = canExecute;
         }
 

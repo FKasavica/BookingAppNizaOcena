@@ -2,27 +2,71 @@
 using System.Windows;
 using BookingAppNizaOcena.Domain.Models;
 using BookingAppNizaOcena.Repository;
+using System.Linq;
 
 namespace BookingAppNizaOcena.Views.Owner
 {
     public partial class ViewOwnerReservationView : Window
     {
         private readonly ReservationService _reservationService;
-        private readonly string _guestEmail;
+        private readonly string _hotelCode;
 
-        public ViewOwnerReservationView(string guestEmail)
+        public ViewOwnerReservationView(string hotelCode)
         {
             InitializeComponent();
             _reservationService = new ReservationService(new ReservationRepository());
-            _guestEmail = guestEmail; // Koristimo email kao string
+            _hotelCode = hotelCode;
 
             LoadReservations();
         }
 
         private void LoadReservations()
         {
-            var reservations = _reservationService.GetReservationsByGuest(_guestEmail);
-            ReservationsListBox.ItemsSource = reservations; // Prikaz rezervacija u nekoj kontrolnoj listi
+            var reservations = _reservationService.GetReservationsByApartment(_hotelCode);
+            ReservationsListBox.ItemsSource = reservations;
+        }
+
+        private void FilterReservations_Click(object sender, RoutedEventArgs e)
+        {
+            var filterType = FilterComboBox.SelectedItem.ToString();
+            var reservations = _reservationService.GetReservationsByApartment(_hotelCode);
+
+            if (filterType == "Pending")
+            {
+                ReservationsListBox.ItemsSource = reservations.Where(r => r.Status == ReservationStatus.Pending).ToList();
+            }
+            else if (filterType == "Confirmed")
+            {
+                ReservationsListBox.ItemsSource = reservations.Where(r => r.Status == ReservationStatus.Confirmed).ToList();
+            }
+            else
+            {
+                ReservationsListBox.ItemsSource = reservations;
+            }
+        }
+
+        private void ConfirmReservation_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedReservation = ReservationsListBox.SelectedItem as Reservation;
+            if (selectedReservation != null && selectedReservation.Status == ReservationStatus.Pending)
+            {
+                selectedReservation.Status = ReservationStatus.Confirmed;
+                _reservationService.CreateReservation(selectedReservation);
+                LoadReservations();
+            }
+        }
+
+        private void RejectReservation_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedReservation = ReservationsListBox.SelectedItem as Reservation;
+            if (selectedReservation != null && selectedReservation.Status == ReservationStatus.Pending)
+            {
+                var rejectionReason = RejectionReasonTextBox.Text;
+                selectedReservation.Status = ReservationStatus.Rejected;
+                selectedReservation.RejectionReason = rejectionReason;
+                _reservationService.CreateReservation(selectedReservation);
+                LoadReservations();
+            }
         }
 
         private void CancelReservation_Click(object sender, RoutedEventArgs e)
@@ -31,7 +75,7 @@ namespace BookingAppNizaOcena.Views.Owner
             if (selectedReservation != null)
             {
                 _reservationService.CancelReservation(selectedReservation);
-                LoadReservations(); // Osvetli rezervacije nakon otkazivanja
+                LoadReservations();
             }
         }
     }

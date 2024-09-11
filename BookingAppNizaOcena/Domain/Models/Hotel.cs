@@ -11,6 +11,8 @@ namespace BookingAppNizaOcena.Domain.Models
         public Dictionary<string, Apartment> Apartments { get; set; }
         public int StarRating { get; set; }
         public string OwnerJMBG { get; set; }
+        public bool IsConfirmed { get; set; } // Svojstvo koje prati da li je hotel potvrđen
+        public string RejectionReason { get; set; } // Dodato svojstvo za obrazloženje odbijanja
 
         public Hotel()
         {
@@ -25,6 +27,8 @@ namespace BookingAppNizaOcena.Domain.Models
             Apartments = new Dictionary<string, Apartment>();
             StarRating = starRating;
             OwnerJMBG = ownerJMBG;
+            IsConfirmed = false;
+            RejectionReason = string.Empty; // Podrazumevano prazan razlog za odbijanje
         }
 
         public void FromCSV(string[] values)
@@ -34,6 +38,8 @@ namespace BookingAppNizaOcena.Domain.Models
             YearBuilt = int.Parse(values[2]);
             StarRating = int.Parse(values[3]);
             OwnerJMBG = values[4];
+            IsConfirmed = bool.Parse(values[5]);
+            RejectionReason = values[6]; // Učitavanje obrazloženja odbijanja iz CSV-a
         }
 
         public string[] ToCSV()
@@ -44,7 +50,9 @@ namespace BookingAppNizaOcena.Domain.Models
                 Name,
                 YearBuilt.ToString(),
                 StarRating.ToString(),
-                OwnerJMBG
+                OwnerJMBG,
+                IsConfirmed.ToString(),
+                RejectionReason // Čuvanje obrazloženja odbijanja u CSV fajl
             };
         }
     }

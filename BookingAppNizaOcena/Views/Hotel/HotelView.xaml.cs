@@ -21,12 +21,13 @@ namespace BookingAppNizaOcena.Views
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            string searchTerm = ((ComboBoxItem)SearchByComboBox.SelectedItem)?.Tag?.ToString();
-            string sortBy = ((ComboBoxItem)SortByComboBox.SelectedItem)?.Tag?.ToString();
+            string searchTerm = ((ComboBoxItem?)SearchByComboBox.SelectedItem)?.Tag?.ToString() ?? string.Empty; // Koristi ?? da osiguraš da string nije null
+            string sortBy = ((ComboBoxItem?)SortByComboBox.SelectedItem)?.Tag?.ToString() ?? string.Empty; // I ovde koristi ?? umesto null vrednosti
+
             int.TryParse(RoomCountTextBox.Text, out int roomCount);
             int.TryParse(MaxGuestsTextBox.Text, out int maxGuests);
 
-            var hotels = _hotelController.SearchHotels(searchTerm, searchTerm, roomCount, maxGuests, logicalOperator);
+            var hotels = _hotelController.SearchHotels(searchTerm, sortBy, roomCount, maxGuests, logicalOperator); // Prosledi searchBy umesto drugog searchTerm
 
             // Sortiranje
             if (sortBy == "name")

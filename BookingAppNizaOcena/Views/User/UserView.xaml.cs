@@ -6,7 +6,7 @@ using System.Windows;
 using BookingAppNizaOcena.Views.User;
 using BookingAppNizaOcena.Views.Owner;
 using System.Windows.Controls;
-
+using BookingAppNizaOcena.Views.Guest;
 
 namespace BookingAppNizaOcena.Views.User
 {
@@ -31,22 +31,21 @@ namespace BookingAppNizaOcena.Views.User
             {
                 MessageBox.Show($"Welcome, {user.FirstName} {user.LastName}!");
 
-                // Reset login attempts after successful login
-                loginAttempts = 0;
+                loginAttempts = 0; // Reset login attempts after successful login
 
-                // Show the appropriate view based on the user's role
-                switch (user.UserType)
+                switch (user?.UserType) // Koristi null-conditional operator kako bi osigurao da user nije null
                 {
                     case UserType.Administrator:
                         var adminView = new AdministratorView();
                         adminView.Show();
                         break;
                     case UserType.Guest:
-                        var guestView = new GuestView();
+                        var guestView = new GuestView(user); // Prosledi user objekat, koji sadrži JMBG
                         guestView.Show();
                         break;
                     case UserType.Owner:
-                        var ownerView = new OwnerView();
+                        var ownerJMBG = user.JMBG ?? string.Empty; // Osiguraj da JMBG nije null                                                                   
+                        var ownerView = new OwnerView(ownerJMBG ?? "", null, null); // Primer: dodaj provere za null i obezbedi default vrednosti
                         ownerView.Show();
                         break;
                 }

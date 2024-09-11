@@ -10,7 +10,7 @@ public class UserService
         _userRepository = userRepository;
     }
 
-    public User Login(string email, string password)
+    public User? Login(string email, string password) // Obeleži kao nullable tip
     {
         var user = _userRepository.GetByEmail(email);
         if (user != null && user.Password == password)
@@ -25,7 +25,7 @@ public class UserService
         return _userRepository.Save(newUser);
     }
 
-    public User GetByEmail(string email)
+    public User? GetByEmail(string email) // Obeleži kao nullable tip
     {
         return _userRepository.GetByEmail(email);
     }

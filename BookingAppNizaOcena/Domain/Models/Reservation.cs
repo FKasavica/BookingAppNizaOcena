@@ -10,16 +10,18 @@ namespace BookingAppNizaOcena.Domain.Models
         public string ApartmentName { get; set; }
         public string ReservationDate { get; set; }
         public ReservationStatus Status { get; set; }
+        public string RejectionReason { get; set; }
 
         public Reservation() { }
 
-        public Reservation(string id, string guestEmail, string apartmentName, string reservationDate, ReservationStatus status)
+        public Reservation(string id, string guestEmail, string apartmentName, string reservationDate, ReservationStatus status, string rejectionReason = "")
         {
             Id = id;
             GuestEmail = guestEmail;
             ApartmentName = apartmentName;
             ReservationDate = reservationDate;
             Status = status;
+            RejectionReason = rejectionReason;
         }
 
         public void FromCSV(string[] values)
@@ -29,6 +31,7 @@ namespace BookingAppNizaOcena.Domain.Models
             ApartmentName = values[2];
             ReservationDate = values[3];
             Status = (ReservationStatus)Enum.Parse(typeof(ReservationStatus), values[4]);
+            RejectionReason = values.Length > 5 ? values[5] : "";
         }
 
         public string[] ToCSV()
@@ -39,7 +42,8 @@ namespace BookingAppNizaOcena.Domain.Models
                 GuestEmail,
                 ApartmentName,
                 ReservationDate,
-                Status.ToString()
+                Status.ToString(),
+                RejectionReason
             };
         }
     }

@@ -1,27 +1,34 @@
 ﻿using BookingAppNizaOcena.Views.Guest;
 using BookingAppNizaOcena.Views.User;
+using BookingAppNizaOcena.Domain.Models;
 using System.Windows;
 
 namespace BookingAppNizaOcena.Views.Owner
 {
     public partial class OwnerView : Window
     {
-        public OwnerView()
+        private string _ownerJMBG;
+        private string _hotelCode; // Assuming these are set somewhere in the logic
+        private Hotel _hotel;
+
+        public OwnerView(string ownerJMBG, string hotelCode, Hotel hotel)
         {
             InitializeComponent();
+            _ownerJMBG = ownerJMBG;
+            _hotelCode = hotelCode;
+            _hotel = hotel;
         }
 
         private void ViewReservations_Click(object sender, RoutedEventArgs e)
         {
-            // Provera da li postoji ViewReservationsView
-            var viewReservations = new ViewOwnerReservationView();
+            var viewReservations = new ViewOwnerReservationView(_hotelCode); // Pass hotelCode
             viewReservations.Show();
             this.Close();
         }
 
         private void ManageMyHotels_Click(object sender, RoutedEventArgs e)
         {
-            var manageMyHotelsView = new ManageHotelsView();
+            var manageMyHotelsView = new ManageHotelsView(_ownerJMBG); // Pass ownerJMBG
             manageMyHotelsView.Show();
             this.Close();
         }
@@ -35,7 +42,7 @@ namespace BookingAppNizaOcena.Views.Owner
 
         private void AddApartment_Click(object sender, RoutedEventArgs e)
         {
-            var addApartment = new AddApartmentView();
+            var addApartment = new AddApartmentView(_hotel); // Pass hotel
             addApartment.Show();
             this.Close();
         }

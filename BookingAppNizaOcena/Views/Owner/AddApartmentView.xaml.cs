@@ -1,27 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BookingAppNizaOcena.Applications.Services;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using BookingAppNizaOcena.Domain.Models;
+using BookingAppNizaOcena.Repository;
 
 namespace BookingAppNizaOcena.Views.Owner
 {
-    /// <summary>
-    /// Interaction logic for AddApartmentView.xaml
-    /// </summary>
     public partial class AddApartmentView : Window
     {
-        public AddApartmentView()
+        private readonly ApartmentService _apartmentService;
+        private readonly Hotel _hotel;
+
+        public AddApartmentView(Hotel hotel)
         {
             InitializeComponent();
+            _apartmentService = new ApartmentService(new ApartmentRepository());
+            _hotel = hotel;
+        }
+
+        private void SaveApartment_Click(object sender, RoutedEventArgs e)
+        {
+            var apartment = new Apartment(ApartmentNameTextBox.Text, ApartmentDescriptionTextBox.Text, int.Parse(ApartmentRoomCountTextBox.Text), int.Parse(ApartmentMaxGuestsTextBox.Text));
+            _apartmentService.AddApartment(apartment); // Metoda iz ApartmentService koja koristi Repository za čuvanje
+            _hotel.Apartments.Add(apartment.Name, apartment); // Dodavanje apartmana u hotel
+            new HotelService(new HotelRepository()).Save(_hotel); // Čuvanje hotela sa novim apartmanom
+            Close(); // Zatvara prozor nakon dodavanja apartmana
         }
     }
 }
