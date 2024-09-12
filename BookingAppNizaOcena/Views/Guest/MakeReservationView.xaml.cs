@@ -48,12 +48,18 @@ namespace BookingAppNizaOcena.Views.Guest
 
                 _reservationService.CreateReservation(reservation);
                 MessageBox.Show("Reservation submitted! Waiting for confirmation.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.Close();
+
+                // Otvaranje `GuestView`
+                var guestView = new GuestView(new BookingAppNizaOcena.Domain.Models.User { Email = _guestEmail });
+                guestView.Show();
+
+                this.Close(); // Zatvaranje trenutnog prozora
             }
             else
             {
                 MessageBox.Show("Apartment is already booked for the selected date.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
     }
 }

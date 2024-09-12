@@ -4,7 +4,18 @@
         Title="View Owner Reservations" Height="450" Width="800">
     <Grid>
         <!-- ListBox za prikaz rezervacija -->
-        <ListBox Name="ReservationsListBox" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="400" Margin="10,10,0,0" />
+        <ListBox Name="ReservationsListBox" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="400" Margin="10,10,0,0">
+            <!-- Dodajemo binding za prikazivanje određenih kolona rezervacija -->
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding ApartmentName}" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding ReservationDate}" />
+                        <TextBlock Text="{Binding Status}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <!-- ComboBox za filtriranje rezervacija -->
         <ComboBox Name="FilterComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="420,10,0,0">

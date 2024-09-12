@@ -49,5 +49,11 @@ namespace BookingAppNizaOcena.Controllers
         {
             return _reservationService.GetRejectedReservationsByGuest(guestEmail);
         }
+
+        // Dodata funkcija za dobijanje rezervacija po nazivu apartmana
+        public List<Reservation> GetReservationsByApartment(string apartmentName)
+        {
+            return _reservationService.GetReservationsByApartment(apartmentName);
+        }
     }
 }

@@ -27,7 +27,7 @@ namespace BookingAppNizaOcena.Views.Owner
 
         private void ConfirmHotel_Click(object sender, RoutedEventArgs e)
         {
-            var selectedHotel = HotelsListBox.SelectedItem as Hotel;
+            var selectedHotel = HotelsListBox.SelectedItem as BookingAppNizaOcena.Domain.Models.Hotel;
             if (selectedHotel != null && !selectedHotel.IsConfirmed)
             {
                 selectedHotel.IsConfirmed = true;
@@ -38,7 +38,7 @@ namespace BookingAppNizaOcena.Views.Owner
 
         private void RejectHotel_Click(object sender, RoutedEventArgs e)
         {
-            var selectedHotel = HotelsListBox.SelectedItem as Hotel;
+            var selectedHotel = HotelsListBox.SelectedItem as BookingAppNizaOcena.Domain.Models.Hotel;
             if (selectedHotel != null && !selectedHotel.IsConfirmed)
             {
                 var rejectionReason = HotelRejectionReasonTextBox.Text;
@@ -50,7 +50,7 @@ namespace BookingAppNizaOcena.Views.Owner
 
         private void AddApartment_Click(object sender, RoutedEventArgs e)
         {
-            var selectedHotel = HotelsListBox.SelectedItem as Hotel;
+            var selectedHotel = HotelsListBox.SelectedItem as BookingAppNizaOcena.Domain.Models.Hotel;
             if (selectedHotel != null)
             {
                 var addApartmentWindow = new AddApartmentView(selectedHotel); // Otvara novi prozor za dodavanje apartmana

@@ -17,8 +17,13 @@ namespace BookingAppNizaOcena.Repository
             _reservations = _serializer.FromCSV(filePath) ?? new List<Reservation>(); // Osiguraj da lista nije null
         }
 
-        public Reservation? Save(Reservation reservation) // Obeleži kao nullable tip
+        public Reservation Save(Reservation reservation)
         {
+            if (string.IsNullOrEmpty(reservation.Id)) // Provera da li ID postoji
+            {
+                reservation.Id = System.Guid.NewGuid().ToString(); // Generisanje jedinstvenog ID-a
+            }
+
             var existingReservation = _reservations.FirstOrDefault(r => r.Id == reservation.Id);
 
             if (existingReservation != null)
@@ -29,16 +34,6 @@ namespace BookingAppNizaOcena.Repository
             _reservations.Add(reservation);
             _serializer.ToCSV(filePath, _reservations);
             return reservation;
-        }
-
-        public Reservation? GetById(string id) // Obeleži kao nullable tip
-        {
-            return _reservations.FirstOrDefault(r => r.Id == id);
-        }
-
-        public List<Reservation> GetAll()
-        {
-            return _reservations;
         }
 
         public List<Reservation> GetReservationsByGuest(string guestEmail)

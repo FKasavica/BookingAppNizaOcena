@@ -26,13 +26,36 @@ namespace BookingAppNizaOcena.Domain.Models
 
         public void FromCSV(string[] values)
         {
-            Id = values[0];
-            GuestEmail = values[1];
-            ApartmentName = values[2];
-            ReservationDate = values[3];
-            Status = (ReservationStatus)Enum.Parse(typeof(ReservationStatus), values[4]);
-            RejectionReason = values.Length > 5 ? values[5] : "";
+            // Proveri da li niz values ima dovoljan broj elemenata
+            if (values.Length >= 5)
+            {
+                Id = values[0];
+                GuestEmail = values[1];
+                ApartmentName = values[2];
+                ReservationDate = values[3];
+
+                // Parsiraj status rezervacije uz proveru validnosti
+                if (Enum.TryParse(values[4], out ReservationStatus status))
+                {
+                    Status = status;
+                }
+                else
+                {
+                    throw new Exception("Invalid reservation status format.");
+                }
+
+                // Ako CSV ima više od 5 kolona, proveri dodatne informacije (ako ih ima)
+                if (values.Length > 5)
+                {
+                    RejectionReason = values[5];  // Primer dodatne kolone, možeš proširiti po potrebi
+                }
+            }
+            else
+            {
+                throw new Exception("CSV format is incorrect or missing data.");
+            }
         }
+
 
         public string[] ToCSV()
         {

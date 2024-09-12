@@ -8,9 +8,9 @@ namespace BookingAppNizaOcena.Views.Owner
     public partial class AddApartmentView : Window
     {
         private readonly ApartmentService _apartmentService;
-        private readonly Hotel _hotel;
+        private readonly BookingAppNizaOcena.Domain.Models.Hotel _hotel;
 
-        public AddApartmentView(Hotel hotel)
+        public AddApartmentView(BookingAppNizaOcena.Domain.Models.Hotel hotel)
         {
             InitializeComponent();
             _apartmentService = new ApartmentService(new ApartmentRepository());

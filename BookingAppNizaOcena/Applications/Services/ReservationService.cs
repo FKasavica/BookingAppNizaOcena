@@ -41,11 +41,6 @@ namespace BookingAppNizaOcena.Applications.Services
             return _reservationRepository.GetReservationsByStatus(guestEmail, ReservationStatus.Rejected);
         }
 
-        public List<Reservation> GetReservationsByApartment(string apartmentName)
-        {
-            return _reservationRepository.GetReservationsByApartment(apartmentName);
-        }
-
         public void CreateReservation(Reservation reservation)
         {
             _reservationRepository.Save(reservation);
@@ -54,6 +49,12 @@ namespace BookingAppNizaOcena.Applications.Services
         public void CancelReservation(Reservation reservation)
         {
             _reservationRepository.CancelReservation(reservation);
+        }
+
+        // Funkcija za dobijanje rezervacija po nazivu apartmana
+        public List<Reservation> GetReservationsByApartment(string apartmentName)
+        {
+            return _reservationRepository.GetReservationsByApartment(apartmentName);
         }
     }
 }

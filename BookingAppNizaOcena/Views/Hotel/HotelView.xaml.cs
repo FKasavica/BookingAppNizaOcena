@@ -4,8 +4,9 @@ using BookingAppNizaOcena.Applications.Services;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using BookingAppNizaOcena.Views.User;
 
-namespace BookingAppNizaOcena.Views
+namespace BookingAppNizaOcena.Views.Hotel
 {
     public partial class HotelView : Window
     {
@@ -15,32 +16,40 @@ namespace BookingAppNizaOcena.Views
         public HotelView()
         {
             InitializeComponent();
-            _hotelController = new HotelController(new HotelService(new HotelRepository()));
+            _hotelController = new HotelController();
             LoadHotels();  // Učitavanje hotela pri pokretanju
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            string searchTerm = ((ComboBoxItem?)SearchByComboBox.SelectedItem)?.Tag?.ToString() ?? string.Empty; // Koristi ?? da osiguraš da string nije null
-            string sortBy = ((ComboBoxItem?)SortByComboBox.SelectedItem)?.Tag?.ToString() ?? string.Empty; // I ovde koristi ?? umesto null vrednosti
-
+            string searchTerm = ((ComboBoxItem?)SearchByComboBox.SelectedItem)?.Tag?.ToString() ?? string.Empty;
+            string sortBy = ((ComboBoxItem?)SortByComboBox.SelectedItem)?.Tag?.ToString() ?? string.Empty;
             int.TryParse(RoomCountTextBox.Text, out int roomCount);
             int.TryParse(MaxGuestsTextBox.Text, out int maxGuests);
 
-            var hotels = _hotelController.SearchHotels(searchTerm, sortBy, roomCount, maxGuests, logicalOperator); // Prosledi searchBy umesto drugog searchTerm
+            var hotels = _hotelController.SearchAndSortHotels(searchTerm, searchTerm, roomCount, maxGuests, logicalOperator, sortBy);
 
-            // Sortiranje
+            HotelListBox.ItemsSource = hotels;
+        }
+
+        private void SortButton_Click(object sender, RoutedEventArgs e)
+        {
+            string sortBy = ((ComboBoxItem?)SortByComboBox.SelectedItem)?.Tag?.ToString() ?? string.Empty;
+
+            var hotels = _hotelController.GetAllHotels();
+
             if (sortBy == "name")
             {
-                hotels = hotels.OrderBy(h => h.Name).ToList();
+                hotels = hotels.OrderBy(h => h.Split('-')[0].Trim()).ToList(); // Sortiranje po imenu
             }
             else if (sortBy == "starRating")
             {
-                hotels = hotels.OrderByDescending(h => h.StarRating).ToList();
+                hotels = hotels.OrderByDescending(h => int.Parse(h.Split('-')[1].Trim().Split(' ')[0])).ToList(); // Sortiranje po broju zvezdica
             }
 
-            HotelListBox.ItemsSource = hotels.Select(h => $"{h.Name} - {h.StarRating} zvezdica").ToList();
+            HotelListBox.ItemsSource = hotels;
         }
+
 
         private void AndOperatorButton_Click(object sender, RoutedEventArgs e)
         {
@@ -55,7 +64,14 @@ namespace BookingAppNizaOcena.Views
         private void LoadHotels()
         {
             var hotels = _hotelController.GetAllHotels();
-            HotelListBox.ItemsSource = hotels.Select(h => $"{h.Name} - {h.StarRating} zvezdica").ToList();
+            HotelListBox.ItemsSource = hotels;
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            var userView = new UserView();
+            userView.Show();
+            this.Close();
         }
     }
 }

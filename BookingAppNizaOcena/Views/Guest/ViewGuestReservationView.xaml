@@ -15,8 +15,8 @@
 
             <DataGrid x:Name="ReservationsDataGrid" AutoGenerateColumns="False" Margin="10" Height="300">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Apartment" Binding="{Binding Apartment.Name}" Width="*"/>
-                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="*"/>
+                    <DataGridTextColumn Header="Apartment" Binding="{Binding ApartmentName}" Width="*"/>
+                    <DataGridTextColumn Header="Date" Binding="{Binding ReservationDate}" Width="*"/>
                     <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>

@@ -3,6 +3,7 @@ using BookingAppNizaOcena.Domain.Models;
 using BookingAppNizaOcena.Repository;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace BookingAppNizaOcena.Views.Guest
 {
@@ -18,12 +19,17 @@ namespace BookingAppNizaOcena.Views.Guest
             _reservationService = new ReservationService(new ReservationRepository());
 
             // Prikaz svih rezervacija gosta
+            LoadReservations();
+        }
+
+        private void LoadReservations()
+        {
             ReservationsDataGrid.ItemsSource = _reservationService.GetReservationsByGuest(_guestEmail);
         }
 
         private void FilterReservations_Click(object sender, RoutedEventArgs e)
         {
-            var selectedFilter = ReservationStatusComboBox.SelectedItem as string;
+            var selectedFilter = (ReservationStatusComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
 
             List<Reservation> filteredReservations = selectedFilter switch
             {
@@ -52,7 +58,7 @@ namespace BookingAppNizaOcena.Views.Guest
                 MessageBox.Show("Reservation canceled successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 // Refresh the reservation list after cancellation
-                ReservationsDataGrid.ItemsSource = _reservationService.GetReservationsByGuest(_guestEmail);
+                LoadReservations();
             }
             else
             {

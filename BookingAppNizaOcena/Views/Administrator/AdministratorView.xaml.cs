@@ -1,4 +1,5 @@
 ﻿using BookingAppNizaOcena.Views.User;
+using BookingAppNizaOcena.Views.Hotel;
 using BookingAppNizaOcena.Views.Administrator;
 using System.Windows;
 

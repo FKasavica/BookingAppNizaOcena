@@ -1,5 +1,6 @@
 ﻿using BookingAppNizaOcena.Views.Guest;
 using BookingAppNizaOcena.Views.User;
+using BookingAppNizaOcena.Views.Hotel;
 using BookingAppNizaOcena.Domain.Models;
 using System.Windows;
 
@@ -9,9 +10,9 @@ namespace BookingAppNizaOcena.Views.Owner
     {
         private string _ownerJMBG;
         private string _hotelCode; // Assuming these are set somewhere in the logic
-        private Hotel _hotel;
+        private BookingAppNizaOcena.Domain.Models.Hotel _hotel;
 
-        public OwnerView(string ownerJMBG, string hotelCode, Hotel hotel)
+        public OwnerView(string ownerJMBG, string hotelCode, BookingAppNizaOcena.Domain.Models.Hotel hotel)
         {
             InitializeComponent();
             _ownerJMBG = ownerJMBG;

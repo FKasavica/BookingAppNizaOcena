@@ -3,6 +3,7 @@ using System.Windows;
 using BookingAppNizaOcena.Domain.Models;
 using BookingAppNizaOcena.Repository;
 using System.Linq;
+using System.Windows.Controls;
 
 namespace BookingAppNizaOcena.Views.Owner
 {
@@ -28,7 +29,7 @@ namespace BookingAppNizaOcena.Views.Owner
 
         private void FilterReservations_Click(object sender, RoutedEventArgs e)
         {
-            var filterType = FilterComboBox.SelectedItem.ToString();
+            var filterType = (FilterComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString();
             var reservations = _reservationService.GetReservationsByApartment(_hotelCode);
 
             if (filterType == "Pending")

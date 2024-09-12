@@ -30,7 +30,7 @@ namespace BookingAppNizaOcena.Views.Administrator
                 }
 
                 // Kreiraj novi hotel
-                var newHotel = new Hotel
+                var newHotel = new BookingAppNizaOcena.Domain.Models.Hotel
                 {
                     Code = HotelCodeTextBox.Text,
                     Name = HotelNameTextBox.Text,
